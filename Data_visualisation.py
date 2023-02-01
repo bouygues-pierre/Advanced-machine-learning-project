@@ -4,19 +4,10 @@ import pandas as pd
 pd.set_option("display.max_rows", 100)
 import os
 
-import json
 import matplotlib.pyplot as plt
 
 plt.rcParams["font.size"] = 14
-import seaborn as sns
-from collections import Counter
-from PIL import Image
-import math
-import seaborn as sns
-from collections import defaultdict
-from pathlib import Path
 import cv2
-from tqdm import tqdm
 
 project_root = '/Volumes/Pierre_2TO/Cours/master/semestre 3/Machine_learning/Advanced-machine-learning-project'
 data_path = '/Volumes/Pierre_2TO/Cours/master/semestre 3/Machine_learning/Data'
@@ -45,14 +36,17 @@ print(f'There are {len_test} images in test dataset')
 print(f'There are {len(train_df[train_df["EncodedPixels"].isnull()])} images without mask')
 
 plt.figure()
-train_df.loc[train_df['EncodedPixels'].isnull(), 'Image_Label'].apply(lambda x: x.split('_')[1]).value_counts().plot(kind="bar")
+train_df.loc[train_df['EncodedPixels'].isnull(), 'Image_Label'].apply(lambda x: x.split('_')[1]).value_counts().plot(
+    kind="bar")
 
 train_df.loc[train_df['EncodedPixels'].isnull() == False, 'Image_Label'].apply(lambda x: x.split('_')[1]).value_counts()
 
 plt.figure()
-train_df.loc[train_df['EncodedPixels'].isnull() == False, 'Image_Label'].apply(lambda x: x.split('_')[0]).value_counts().value_counts().plot(kind="bar")
+train_df.loc[train_df['EncodedPixels'].isnull() == False, 'Image_Label'].apply(
+    lambda x: x.split('_')[0]).value_counts().value_counts().plot(kind="bar")
 
 palet = [(249, 192, 12), (0, 185, 241), (114, 0, 218), (249, 50, 12)]
+
 
 def name_and_mask(start_idx):
     col = start_idx

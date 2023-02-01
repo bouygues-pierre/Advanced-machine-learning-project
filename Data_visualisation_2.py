@@ -139,7 +139,7 @@ def cloudInColor(image: np.ndarray,
 if __name__ == '__main__':
 
     repBase = '/Volumes/Pierre_2TO/Cours/master/semestre 3/Machine_learning/Advanced-machine-learning-project'
-    repTrain = '/Volumes/Pierre_2TO/Cours/master/semestre 3/Machine_learning/Advanced-machine-learning-project/Data'
+    repTrain = r'D:\Cours\master\semestre 3\Machine_learning\Advanced-machine-learning-project\Data'
 
     # split image_label column into image column and label column
     df = pd.read_csv(os.path.join(repTrain, 'train.csv'))
@@ -148,10 +148,12 @@ if __name__ == '__main__':
     df = df.drop(['Image_Label'], axis=1)
 
     colors = [(0, 0, 255), (255, 0, 0), (0, 255, 0), (255, 255, 0)]
-    image_name = '0aa2df7.jpg'
+    image_name = '043e76c.jpg'
+        # '043e76c.jpg' # problem de recoupage de masks
+    #image_name = '008233e.jpg'
 
     rles = df[df['image'] == image_name]['EncodedPixels'].reset_index(drop=True)
-    image_start = plt.imread(os.path.join(repTrain, 'train_images', image_name))
+    image_start = plt.imread(os.path.join(repTrain, 'initial_data', 'train_images', image_name))
 
     # Raw image
     fig, ax = plt.subplots()
@@ -168,28 +170,6 @@ if __name__ == '__main__':
             trace_boundingBox(image, mask, color=colors[k])
 
     ax.imshow(image)
-
-    # Colored masks
-    fig, ax = plt.subplots()
-
-    image = np.copy(image_start)  # reset the working image
-    for k in range(4):  # We have 4 classes in this dataset
-        rle = rles[k]  # initialize the current RLE code
-        if not isinstance(rle, float):  # it's not a 'NaN' RLE
-            mask = rleToMask(rles[k])
-            image = maskInColor(image, mask, color=colors[k], alpha=0.3)
-
-    ax.imshow(image)
-
-    # Colored clouds
-    fig, ax = plt.subplots()
-
-    image = np.copy(image_start)  # reset the working image
-    for k in range(4):  # We have 4 classes in this dataset
-        rle = rles[k]  # initialize the current RLE code
-        if not isinstance(rle, float):  # it's not a 'NaN' RLE
-            mask = rleToMask(rles[k])
-            image = cloudInColor(image, mask, color=colors[k], alpha=0.7, threshold=90)
-
-    ax.imshow(image)
     plt.show()
+
+
